@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import CratePoster from "./Components/formToCreate";
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
+function App(){
+  const[createPoster, setCreatePoster] = useState(false);
+const[posters, setPosters] = useState([]);
+
+const deleteNote = (index) => {
+  const updatedPosters = [...posters];
+  updatedPosters.splice(index, 1);
+  setPosters(updatedPosters);
+};
+
+  return(
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <h1>Notes</h1>
+        <button className="create" onClick={() => setCreatePoster(true)}>
+          Create note</button>
+
+       <main className="posters">
+
+         {posters.map((n, index) => (
+          <div className="poster" key={index}>
+
+            {n.text}
+            <button className="delete" onClick={() => deleteNote(index)}>
+              Delete </button>
+              
+          </div>
+        ))}
+
+       </main>
+
+      {
+        createPoster && (
+             <div className="modal">
+                <div className="body-modal">
+                
+          <CratePoster posters={setPosters} show={setCreatePoster} />
+                   
+              </div>
+           </div>
+        )
+      }
+
+     </>
   )
 }
 
-export default App
+export default App;
